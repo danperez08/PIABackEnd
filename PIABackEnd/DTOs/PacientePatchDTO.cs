@@ -1,10 +1,11 @@
 ﻿using PIABackEnd.Validaciones;
 using System.ComponentModel.DataAnnotations;
 
-namespace PIABackEnd.Entidades
+namespace PIABackEnd.DTOs
 {
-    public class Doctor
+    public class PacientePatchDTO
     {
+
         public int Id { get; set; }
 
         [Required]
@@ -15,7 +16,11 @@ namespace PIABackEnd.Entidades
         [Upper1stLetter]
         public string Apellido { get; set; }
 
-        public List<Cita> Citas { get; set; }
+        [Required]
+        public string Email { get; set; }
 
+        [Required]
+        [StringLength(15)]
+        public string Telefono { get; set; }
     }
 }

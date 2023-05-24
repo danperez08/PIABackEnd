@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PIABackEnd.DTOs;
+using Microsoft.AspNetCore.JsonPatch;
 using PIABackEnd.Entidades;
+using AutoMapper;
 
 
 namespace PIABackEnd.Controllers
@@ -11,10 +14,13 @@ namespace PIABackEnd.Controllers
     public class PacienteController :ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public PacienteController(ApplicationDbContext context)
+
+        public PacienteController(ApplicationDbContext context, IMapper mapper)
         {
             this.dbContext = context;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +29,27 @@ namespace PIABackEnd.Controllers
             return await dbContext.Pacientes.ToListAsync();
         }
 
-        [HttpPost]
+
+        [HttpGet("{id:int}")]
+        [Produces("application/json")]
+       
+       public async Task<ActionResult<PacienteDTO>> GetByID(int id)
+            {
+                var paciente = await dbContext.Pacientes.FindAsync(id);
+
+                if (paciente == null)
+                {
+                    return NotFound();
+                }
+
+                var pacienteDTO = mapper.Map<PacienteDTO>(paciente);
+
+                return pacienteDTO;
+            }
+       
+
+
+            [HttpPost]
         public async Task<ActionResult> Post(Paciente paciente)
         {
             dbContext.Add(paciente);
@@ -41,6 +67,35 @@ namespace PIABackEnd.Controllers
             dbContext.Update(paciente);
             await dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<PacientePatchDTO> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest();
+            }
+            var paciente = await dbContext.Pacientes.FindAsync(id);
+
+            if (paciente == null)
+            {
+                return NotFound();
+            }
+
+            var pacientepatchDto = mapper.Map<PacientePatchDTO>(paciente);
+            patchDocument.ApplyTo(pacientepatchDto, ModelState);
+
+            if (!TryValidateModel(pacientepatchDto))
+            {
+                return BadRequest(ModelState);
+            }
+
+            mapper.Map(pacientepatchDto, paciente);
+            await dbContext.SaveChangesAsync();
+
+            return NoContent();
+
         }
 
         [HttpDelete("{id:int}")]

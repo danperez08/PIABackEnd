@@ -19,6 +19,6 @@ namespace PIABackEnd
 
         public DbSet<Registro_Medico> Registro_Medicos { get; set; }
 
-        
+     
     }
 }

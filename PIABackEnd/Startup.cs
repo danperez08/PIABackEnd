@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using PIABackEnd.Filtros;
 
 namespace PIABackEnd
 {
@@ -13,6 +15,15 @@ namespace PIABackEnd
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(FiltroExcepcion));
+            });
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IMapper, Mapper>();
+
+            services.AddControllers().AddNewtonsoftJson();
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<ApplicationDbContext>(options =>

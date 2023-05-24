@@ -1,9 +1,10 @@
-﻿using PIABackEnd.Validaciones;
+﻿using PIABackEnd.Entidades;
+using PIABackEnd.Validaciones;
 using System.ComponentModel.DataAnnotations;
 
-namespace PIABackEnd.Entidades
+namespace PIABackEnd.DTOs
 {
-    public class Paciente
+    public class PacienteDTO
     {
         public int Id { get; set; }
 
@@ -22,9 +23,10 @@ namespace PIABackEnd.Entidades
         [StringLength(15)]
         public string Telefono { get; set; }
 
-        public List<Cita> Citas { get; set; }
+        public List<Cita> CitasDto { get; set; }
 
-        public List<Registro_Medico> Registro_medicos { get; set; }
+
+        public List<Registro_Medico> Registro_medicosDTO { get; set; }
 
     }
 }
