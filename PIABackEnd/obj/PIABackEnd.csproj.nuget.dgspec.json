@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[7.0.5, )"
             },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23174.8, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"

@@ -2,41 +2,43 @@
 using Microsoft.EntityFrameworkCore;
 using PIABackEnd.Entidades;
 
+
 namespace PIABackEnd.Controllers
 {
+
     [ApiController]
-    [Route("api/doctor")]
-    public class DoctorController : ControllerBase
+    [Route("api/paciente")]
+    public class PacienteController :ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
 
-        public DoctorController(ApplicationDbContext context)
+        public PacienteController(ApplicationDbContext context)
         {
             this.dbContext = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Doctor>>> Get()
+        public async Task<ActionResult<List<Paciente>>> Get()
         {
-            return await dbContext.Doctors.ToListAsync();
+            return await dbContext.Pacientes.ToListAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Doctor doctor)
+        public async Task<ActionResult> Post(Paciente paciente)
         {
-            dbContext.Add(doctor);
+            dbContext.Add(paciente);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Doctor doctor, int id)
+        public async Task<ActionResult> Put(Paciente paciente, int id)
         {
-            if (doctor.Id != id)
+            if (paciente.Id != id)
             {
-                return BadRequest("El id del Doctor no coincide con el establecido en la url");
+                return BadRequest("El id del paciente no coincide con el establecido en la url");
             }
-            dbContext.Update(doctor);
+            dbContext.Update(paciente);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
@@ -44,13 +46,13 @@ namespace PIABackEnd.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var exist = await dbContext.Doctors.AnyAsync(x => x.Id == id);
+            var exist = await dbContext.Pacientes.AnyAsync(x => x.Id == id);
             if (!exist)
             {
                 return NotFound();
             }
 
-            dbContext.Remove(new Doctor()
+            dbContext.Remove(new Cita()
             {
                 Id = id
             });

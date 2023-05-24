@@ -4,39 +4,41 @@ using PIABackEnd.Entidades;
 
 namespace PIABackEnd.Controllers
 {
+
     [ApiController]
-    [Route("api/doctor")]
-    public class DoctorController : ControllerBase
+    [Route("api/cita")]
+    public class CitaController :ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
 
-        public DoctorController(ApplicationDbContext context)
+        public CitaController(ApplicationDbContext context)
         {
             this.dbContext = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Doctor>>> Get()
+        public async Task<ActionResult<List<Cita>>> Get()
         {
-            return await dbContext.Doctors.ToListAsync();
+            return await dbContext.Citas.ToListAsync();
         }
 
+
         [HttpPost]
-        public async Task<ActionResult> Post(Doctor doctor)
+        public async Task<ActionResult> Post(Cita cita)
         {
-            dbContext.Add(doctor);
+            dbContext.Add(cita);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Doctor doctor, int id)
+        public async Task<ActionResult> Put(Cita cita, int id)
         {
-            if (doctor.Id != id)
+            if (cita.Id != id)
             {
-                return BadRequest("El id del Doctor no coincide con el establecido en la url");
+                return BadRequest("El id de la cita no coincide con el establecido en la url");
             }
-            dbContext.Update(doctor);
+            dbContext.Update(cita);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
@@ -50,7 +52,7 @@ namespace PIABackEnd.Controllers
                 return NotFound();
             }
 
-            dbContext.Remove(new Doctor()
+            dbContext.Remove(new Cita()
             {
                 Id = id
             });
