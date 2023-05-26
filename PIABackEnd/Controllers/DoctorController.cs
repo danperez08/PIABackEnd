@@ -14,14 +14,16 @@ namespace PIABackEnd.Controllers
     public class DoctorController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<IdentityUser> userManager;
+        // private readonly UserManager<IdentityUser> userManager;
         public DoctorController(ApplicationDbContext context)
         {
             this.dbContext = context;
+            //this.userManager = userManager;
         }
 
+
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //  [Authorize(Roles = "admin")]
         public async Task<ActionResult<List<Doctor>>> Get()
         {
             return await dbContext.Doctors.ToListAsync();
@@ -35,37 +37,37 @@ namespace PIABackEnd.Controllers
              await dbContext.SaveChangesAsync();
              return Ok();*/
             // Verificar si el usuario ya existe
-            var userExist = await userManager.FindByNameAsync(doctor.UserName);
-            if (userExist != null)
-            {
-                return BadRequest("El usuario ya existe");
-            }
+            /* var userExist = await userManager.FindByNameAsync(doctor.UserName);
+             if (userExist != null)
+             {
+                 return BadRequest("El usuario ya existe");
+             }
 
-            // Crear el usuario y asignar el rol de administrador
-            var user = new IdentityUser
-            {
-                UserName = doctor.UserName,
-                Email = doctor.Email
-            };
-            var result = await userManager.CreateAsync(user, doctor.Password);
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(user, "admin"); // Asignar el rol de administrador
-            }
-            else
-            {
-                return BadRequest(result.Errors);
-            }
+             // Crear el usuario y asignar el rol de administrador
+             var user = new IdentityUser
+             {
+                 UserName = doctor.UserName,
+                 Email = doctor.Email
+             };
+             var result = await userManager.CreateAsync(user, doctor.Password);
+             if (result.Succeeded)
+             {
+                 await userManager.AddToRoleAsync(user, "admin"); // Asignar el rol de administrador
+             }
+             else
+             {
+                 return BadRequest(result.Errors);
+             }*/
 
             // Guardar el doctor en la base de datos
             dbContext.Add(doctor);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
-    
+
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "admin")]
         public async Task<ActionResult> Put(Doctor doctor, int id)
         {
             if (doctor.Id != id)
@@ -78,7 +80,7 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var exist = await dbContext.Doctors.AnyAsync(x => x.Id == id);

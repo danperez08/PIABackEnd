@@ -1,14 +1,17 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using PIABackEnd.Entidades;
 
 namespace PIABackEnd
 {
-    public class ApplicationDbContext: DbContext 
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { 
-
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
         }
 
         public DbSet<Doctor> Doctors { get; set; }
@@ -18,6 +21,7 @@ namespace PIABackEnd
         public DbSet<Paciente> Pacientes { get; set; }
 
         public DbSet<Registro_Medico> Registro_Medicos { get; set; }
+
 
      
     }

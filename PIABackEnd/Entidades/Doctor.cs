@@ -30,8 +30,8 @@ namespace PIABackEnd.Entidades
         public List<Cita> Citas { get; set; }
 
         // Relación con el usuario (administrador)
-        public string UsuarioId { get; set; }
-        public IdentityUser Usuario { get; set; }
+        /*public IdentityUser User { get; set; }*/
+       
 
     }
 }
