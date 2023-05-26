@@ -28,7 +28,7 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
 
         public async Task<ActionResult<List<Cita>>> Get()
         {
@@ -38,7 +38,7 @@ namespace PIABackEnd.Controllers
 
         [HttpGet("{id:int}")]
         [Produces("application/json")]
-        [Authorize(Roles = "admin")]
+       // [Authorize(Roles = "admin")]
 
         public async Task<ActionResult<CitaDTO>> GetByID(int id)
             {
@@ -80,7 +80,7 @@ namespace PIABackEnd.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
 
         public async Task<ActionResult> CreateEvento(CrearCitaDTO crearcitadto)
         {
@@ -102,7 +102,7 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "admin")]
+      //  [Authorize(Roles = "admin")]
 
         public async Task<ActionResult> Put(Cita cita, int id)
         {
@@ -116,7 +116,7 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "admin")]
+      //  [Authorize(Roles = "admin")]
 
         public async Task<ActionResult> Delete(int id)
         {
