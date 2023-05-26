@@ -4,6 +4,8 @@ using PIABackEnd.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using PIABackEnd.Entidades;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace PIABackEnd.Controllers

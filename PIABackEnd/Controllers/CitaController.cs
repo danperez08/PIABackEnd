@@ -4,6 +4,8 @@ using PIABackEnd.DTOs;
 using PIABackEnd.Entidades;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace PIABackEnd.Controllers
@@ -26,6 +28,8 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<List<Cita>>> Get()
         {
             logger.LogInformation("Se obtiene la lisat de las citas programadas");
@@ -34,6 +38,8 @@ namespace PIABackEnd.Controllers
 
         [HttpGet("{id:int}")]
         [Produces("application/json")]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<CitaDTO>> GetByID(int id)
             {
             var cita = await dbContext.Citas
@@ -74,6 +80,8 @@ namespace PIABackEnd.Controllers
 
         [HttpPost]
         [Produces("application/json")]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult> CreateEvento(CrearCitaDTO crearcitadto)
         {
             if (!ModelState.IsValid)
@@ -93,7 +101,9 @@ namespace PIABackEnd.Controllers
 
         }
 
-            [HttpPut("{id:int}")]
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult> Put(Cita cita, int id)
         {
             if (cita.Id != id)
@@ -106,6 +116,8 @@ namespace PIABackEnd.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult> Delete(int id)
         {
             var exist = await dbContext.Doctors.AnyAsync(x => x.Id == id);

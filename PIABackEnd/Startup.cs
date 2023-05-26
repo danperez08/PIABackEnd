@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using PIABackEnd.Filtros;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PIABackEnd
 {
@@ -34,6 +36,11 @@ namespace PIABackEnd
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PIABackEnd", Version = "v1" });
             });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddScoped<UserManager<IdentityUser>>();
 
         }
 
